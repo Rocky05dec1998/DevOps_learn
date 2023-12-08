@@ -2,7 +2,7 @@ pipeline {
 agnet any 
 stages{
 stage(test) {
-sh 'echo "helllo jenkins"
+sh 'echo "helllo jenkins"'
 }
 }
 }
