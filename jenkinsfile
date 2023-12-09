@@ -5,6 +5,8 @@ stage(test) {
 steps{
 sh 'echo "helllo jenkins"'
 echo '2nd hello'
+}
+}
 stage(server-login) {
 steps{
   sshagent (credentials: ['devops-ssh']) {
@@ -13,7 +15,6 @@ steps{
   }
 }
 }
-}
-}
+
 }
 }
