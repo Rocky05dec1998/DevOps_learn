@@ -11,9 +11,9 @@ stage('server-login') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'devops-ssh', keyFileVariable: 'KEY_FILE')]) {
                     sh '''
-                        ssh -o StrictHostKeyChecking=no -i \$KEY_FILE jenkins@172.31.26.104 
-                        sudo yum install nginx
-                        sudo systemctl enable nginx
+                        ssh -o StrictHostKeyChecking=no -i \$KEY_FILE jenkins@172.31.26.104 \
+                        sudo yum install nginx \
+                        sudo systemctl enable nginx\
                         sudo start nginx
                     '''
                 }
