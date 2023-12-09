@@ -5,6 +5,14 @@ stage(test) {
 steps{
 sh 'echo "helllo jenkins"'
 echo '2nd hello'
+stage(server-login) {
+steps{
+  sshagent (credentials: ['devops-ssh']) {
+    sh 'ssh -o StrictHostKeyChecking=no -l jenkins@172.31.26.104'
+    echo 'hello world'>>test.txt
+  }
+}
+}
 }
 }
 }
