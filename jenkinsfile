@@ -10,11 +10,10 @@ echo '2nd hello'
 stage('server-login') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'devops-ssh', keyFileVariable: 'KEY_FILE')]) {
-                     sh 
-                      ssh -o StrictHostKeyChecking=no -i \$KEY_FILE jenkins@172.31.26.104 \
-                      && 'pwd' \
-                      && 'echo hello world >> ops.txt' \
-                    '''
+                     sh "ssh -o StrictHostKeyChecking=no -i \$KEY_FILE jenkins@172.31.26.104 \
+                        'pwd' \
+                        'sudo yum install nginx -y'\
+                        '&& systemctl enable nginx'"
                 }
             }
 }
