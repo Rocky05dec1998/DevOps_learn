@@ -11,7 +11,7 @@ stage('server-login') {
 steps{
   sshagent (credentials: ['devops-ssh']) {
     sh '''
-       ssh -o StrictHostKeyChecking=no jenkins@172.31.26.104'
+       ssh -o StrictHostKeyChecking=no jenkins@172.31.26.104
        echo 'hello world'>>test.txt
    '''
   }
