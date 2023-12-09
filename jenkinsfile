@@ -8,13 +8,10 @@ echo '2nd hello'
 }
 }
 stage('server-login') {
-steps{
-  sshagent(credentials: ['devops-ssh']) {
-    sh 'ssh -o StrictHostKeyChecking=no -l jenkins@172.31.26.104'
-    echo 'hello world'>>test.txt
-  }
-}
-}
-
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: 'devops-ssh', keyFileVariable: 'KEY_FILE')]) {
+                    sh "ssh -o StrictHostKeyChecking=no -i \$KEY_FILE jenkins@172.31.26.104 'echo hello world >> test.txt'"
+                }
+            }
 }
 }
