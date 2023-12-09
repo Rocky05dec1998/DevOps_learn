@@ -13,6 +13,10 @@ steps{
     sh '''
        ssh -o StrictHostKeyChecking=no jenkins@172.31.26.104
        echo 'hello world'>>test.txt
+       sudo yum install -y nginx
+       sudo systemctl enable nginx
+       sudo systemctl start nginx
+       sudo systemctl status nginx
    '''
   }
 }
