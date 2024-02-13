@@ -20,3 +20,34 @@ stage('server-login') {
 }
 }
 }
+
+
+FROM openjdk:8
+
+# Install Git and Maven
+RUN apt-get update && \
+    apt-get install -y git maven
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Clone the Java project from the GitHub repository
+#RUN git clone https://github.com/LEOKA037/Java-Projects.
+RUN git clone https://github.com/BuntyRaghani/spring-boot-hello-world.git
+RUN ls
+RUN pwd
+WORKDIR /usr/src/app/spring-boot-hello-world
+RUN wget https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.0.0/opentelemetry-javaagent.jar
+# Build the Java application using Maven
+RUN mvn clean install
+RUN wget https://repo.maven.apache.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar
+COPY jmx_config.yaml .
+# Expose the port your application is running on (if applicable)
+EXPOSE 8080
+ENV OTEL_SERVICE_NAME="KBL-POC"
+ENV OTEL_METRICS_EXPORTER=none
+ENV OTEL_TRACES_EXPORTER=otlp
+ENV OTEL_LOGS_EXPORTER=none
+ENV OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://172.31.89.142:4318/v1/traces
+ENV OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=http/protobuf
+CMD ["java", "-javaagent:jmx_prometheus_javaagent-0.20.0.jar=8081:jmx_config.yaml", "-Dotel.javaagent.debug=true", "-jar", "target/spring-boot-2-hello-world-1.0.2-SNAPSHOT.jar"]
